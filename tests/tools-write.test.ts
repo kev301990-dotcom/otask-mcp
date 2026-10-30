@@ -49,6 +49,10 @@ function mockApi(partial: Partial<OtaskClient> = {}): OtaskClient {
       task: sampleTask(),
     })),
     listProjects: mock(async () => []),
+    createProject: mock(async () => ({ id: 1 })),
+    listStorage: mock(async () => []),
+    listProjectNotes: mock(async () => []),
+    updateProjectNote: mock(async () => ({ id: 1 })),
     listProjectTasks: mock(async () => ({ tasks: [] })),
     listWorkspaceTasks: mock(async () => ({
       tasks: [],

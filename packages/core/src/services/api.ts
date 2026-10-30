@@ -425,3 +425,82 @@ export function formatApiError(error: unknown): string {
 
   return `Error: ${String(error)}`;
 }
+
+/** Create a project in the specified workspace. */
+export async function createProject(
+  wsSlug: string,
+  body: {
+    name: string;
+    amount?: number;
+    end_at?: string;
+    client_id?: number | null;
+    is_regular_amount?: boolean;
+    status_id?: 100 | 300;
+    tags?: number[];
+    members?: number[];
+    managers?: number[];
+  },
+  auth: OtaskAuthResolver
+): Promise<unknown> {
+  const headers = await headersFor(auth);
+  const response = await fetch(wsUrl(wsSlug, "/projects/create"), {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      amount: 0,
+      end_at: "",
+      client_id: null,
+      is_regular_amount: false,
+      status_id: 100,
+      tags: [],
+      members: [],
+      managers: [],
+      ...body,
+    }),
+  });
+  const result = await parseResponse<OtaskApiResponse<unknown>>(response);
+  return assertSuccess(result, response.status, "Failed to create project");
+}
+
+export async function listStorage(wsSlug: string, auth: OtaskAuthResolver): Promise<unknown> {
+  const response = await fetch(wsUrl(wsSlug, "/storages"), { headers: await headersFor(auth) });
+  const result = await parseResponse<OtaskApiResponse<unknown>>(response);
+  return assertSuccess(result, response.status, "Failed to list storage");
+}
+
+export async function listProjectNotes(
+  wsSlug: string,
+  projectSlug: string,
+  auth: OtaskAuthResolver
+): Promise<unknown> {
+  const response = await fetch(
+    wsUrl(wsSlug, `/projects/${encodeURIComponent(projectSlug)}/notes`),
+    {
+      headers: await headersFor(auth),
+    }
+  );
+  const result = await parseResponse<OtaskApiResponse<unknown>>(response);
+  return assertSuccess(result, response.status, "Failed to list project notes");
+}
+
+export async function updateProjectNote(
+  wsSlug: string,
+  projectSlug: string,
+  noteSlug: string,
+  body: { name: string; description: string },
+  auth: OtaskAuthResolver
+): Promise<unknown> {
+  const response = await fetch(
+    wsUrl(
+      wsSlug,
+      `/projects/${encodeURIComponent(projectSlug)}/notes/${encodeURIComponent(noteSlug)}/update`
+    ),
+    {
+      method: "POST",
+      headers: await headersFor(auth),
+      body: JSON.stringify(body),
+    }
+  );
+  const result = await parseResponse<OtaskApiResponse<unknown>>(response);
+  return assertSuccess(result, response.status, "Failed to update project note");
+}

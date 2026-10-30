@@ -13,18 +13,22 @@ import type {
 import {
   addComment,
   archiveTask,
+  createProject,
   createTask,
   getMe,
   getTask,
   listBoard,
   listComments,
   listMembers,
+  listProjectNotes,
   listProjects,
   listProjectTasks,
+  listStorage,
   listTags,
   listTeams,
   listWorkspaceTasks,
   type OtaskWorkspaceSummary,
+  updateProjectNote,
   updateTask,
 } from "./api.js";
 import type { OtaskAuthResolver } from "./auth.js";
@@ -36,6 +40,28 @@ export interface OtaskClient {
   getTask(wsSlug: string, taskSlug: string): Promise<OtaskTask>;
   updateTask(wsSlug: string, taskSlug: string, body: UpdateTaskBody): Promise<UpdateTaskResult>;
   listProjects(wsSlug: string): Promise<OtaskProjectSummary[]>;
+  createProject(
+    wsSlug: string,
+    body: {
+      name: string;
+      amount?: number;
+      end_at?: string;
+      client_id?: number | null;
+      is_regular_amount?: boolean;
+      status_id?: 100 | 300;
+      tags?: number[];
+      members?: number[];
+      managers?: number[];
+    }
+  ): Promise<unknown>;
+  listStorage(wsSlug: string): Promise<unknown>;
+  listProjectNotes(wsSlug: string, projectSlug: string): Promise<unknown>;
+  updateProjectNote(
+    wsSlug: string,
+    projectSlug: string,
+    noteSlug: string,
+    body: { name: string; description: string }
+  ): Promise<unknown>;
   listProjectTasks(
     wsSlug: string,
     projectSlug: string,
@@ -66,6 +92,11 @@ export function createOtaskClient(auth: OtaskAuthResolver): OtaskClient {
     getTask: (wsSlug, taskSlug) => getTask(wsSlug, taskSlug, auth),
     updateTask: (wsSlug, taskSlug, body) => updateTask(wsSlug, taskSlug, body, auth),
     listProjects: (wsSlug) => listProjects(wsSlug, auth),
+    createProject: (wsSlug, body) => createProject(wsSlug, body, auth),
+    listStorage: (wsSlug) => listStorage(wsSlug, auth),
+    listProjectNotes: (wsSlug, projectSlug) => listProjectNotes(wsSlug, projectSlug, auth),
+    updateProjectNote: (wsSlug, projectSlug, noteSlug, body) =>
+      updateProjectNote(wsSlug, projectSlug, noteSlug, body, auth),
     listProjectTasks: (wsSlug, projectSlug, query) =>
       listProjectTasks(wsSlug, projectSlug, query, auth),
     listWorkspaceTasks: (wsSlug, query) => listWorkspaceTasks(wsSlug, query, auth),

@@ -1,5 +1,6 @@
 import { createAddCommentTool } from "./add-comment.js";
 import { createArchiveTaskTool } from "./archive-task.js";
+import { createCreateProjectTool } from "./create-project.js";
 import { createCreateTaskTool } from "./create-task.js";
 import { createGetTaskTool } from "./get-task.js";
 import { createListBoardTool } from "./list-board.js";
@@ -7,11 +8,13 @@ import { createListCommentsTool } from "./list-comments.js";
 import { createListMembersTool } from "./list-members.js";
 import { createListProjectTasksTool } from "./list-project-tasks.js";
 import { createListProjectsTool } from "./list-projects.js";
+import { createListStorageTool } from "./list-storage.js";
 import { createListTagsTool } from "./list-tags.js";
 import { createListTasksTool } from "./list-tasks.js";
 import { createListWorkspacesTool } from "./list-workspaces.js";
 import { createMeTool } from "./me.js";
 import { createMoveTaskTool } from "./move-task.js";
+import { createListProjectNotesTool, createUpdateProjectNoteTool } from "./project-notes.js";
 import { createUpdateTaskTool } from "./update-task.js";
 
 /** Add new tools here — one factory per file. */
@@ -29,6 +32,10 @@ export const toolFactories = [
   createListCommentsTool,
   createAddCommentTool,
   createCreateTaskTool,
+  createCreateProjectTool,
+  createListStorageTool,
+  createListProjectNotesTool,
+  createUpdateProjectNoteTool,
   createMoveTaskTool,
   createArchiveTaskTool,
 ] as const;

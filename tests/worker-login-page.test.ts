@@ -118,9 +118,7 @@ describe("renderLoginStep2", () => {
     const res = await renderLoginStep2({
       query: "x=1",
       teams: [{ slug: "ws-a", name: "Alpha" }],
-      projectsByWs: [
-        { ws: "ws-a", projects: [{ id: 1, slug: "p1", name: "P1" }], error: null },
-      ],
+      projectsByWs: [{ ws: "ws-a", projects: [{ id: 1, slug: "p1", name: "P1" }], error: null }],
     });
     const html = await res.text();
     expect(html).toMatch(/<script[\s>]/i);
