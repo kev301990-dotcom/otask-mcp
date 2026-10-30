@@ -23,7 +23,12 @@ export function createCreateProjectTool({ api, scope }: ToolDeps) {
       title: "Create O!task Project",
       description: "Create a project in an authorized workspace.",
       inputSchema: schema,
-      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
     },
     handler: async (params: z.infer<typeof schema>) => {
       try {

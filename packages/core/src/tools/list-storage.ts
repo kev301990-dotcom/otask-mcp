@@ -12,7 +12,12 @@ export function createListStorageTool({ api, scope }: ToolDeps) {
       title: "List O!task Storage",
       description: "List storage in an authorized workspace.",
       inputSchema: schema,
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
     },
     handler: async ({ ws_slug }: z.infer<typeof schema>) => {
       try {

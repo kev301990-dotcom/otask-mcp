@@ -46,10 +46,16 @@ describe("new O!task API client methods (mock transport; endpoints require live 
   test("updateProjectNote sends POST and payload", async () => {
     const calls = intercept();
     await createOtaskClient(auth).updateProjectNote("workspace", "project", "note", {
-      name: "Блокнот", description: "Текст",
+      name: "Блокнот",
+      description: "Текст",
     });
-    expect(calls[0]?.url).toBe(`${API_BASE_URL}/api/v1/ws/workspace/projects/project/notes/note/update`);
+    expect(calls[0]?.url).toBe(
+      `${API_BASE_URL}/api/v1/ws/workspace/projects/project/notes/note/update`
+    );
     expect(calls[0]?.init?.method).toBe("POST");
-    expect(JSON.parse(String(calls[0]?.init?.body))).toEqual({ name: "Блокнот", description: "Текст" });
+    expect(JSON.parse(String(calls[0]?.init?.body))).toEqual({
+      name: "Блокнот",
+      description: "Текст",
+    });
   });
 });

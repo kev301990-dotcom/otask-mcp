@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { resolveWsSlug, resolveProjectSlug } from "../services/scope.js";
+import { resolveProjectSlug, resolveWsSlug } from "../services/scope.js";
 import { jsonToolResult, toolError } from "./helpers.js";
 import type { ToolDeps } from "./types.js";
 
@@ -12,7 +12,12 @@ export function createListProjectNotesTool({ api, scope }: ToolDeps) {
       title: "List O!task Project Notes",
       description: "Read project notebooks after checking workspace and project allowlists.",
       inputSchema: schema,
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
     },
     handler: async ({ ws_slug, project_slug }: z.infer<typeof schema>) => {
       try {
@@ -40,9 +45,20 @@ export function createUpdateProjectNoteTool({ api, scope }: ToolDeps) {
       title: "Update O!task Project Note",
       description: "Replace an existing project notebook's name and description.",
       inputSchema: updateSchema,
-      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
     },
-    handler: async ({ ws_slug, project_slug, note_slug, name, description }: z.infer<typeof updateSchema>) => {
+    handler: async ({
+      ws_slug,
+      project_slug,
+      note_slug,
+      name,
+      description,
+    }: z.infer<typeof updateSchema>) => {
       try {
         const ws = await resolveWsSlug(ws_slug, scope, () => api.listWorkspaces());
         const slug = await resolveProjectSlug(project_slug, scope, () => api.listProjects(ws));
