@@ -1,4 +1,4 @@
-name: Deploy Worker
+name: Deploy Otask MCP Worker
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - uses: oven-sh/setup-bun@v2
