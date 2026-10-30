@@ -1,6 +1,9 @@
 import { createAddCommentTool } from "./add-comment.js";
 import { createArchiveTaskTool } from "./archive-task.js";
 import { createCreateTaskTool } from "./create-task.js";
+import { createCreateProjectTool } from "./create-project.js";
+import { createListStorageTool } from "./list-storage.js";
+import { createListProjectNotesTool, createUpdateProjectNoteTool } from "./project-notes.js";
 import { createGetTaskTool } from "./get-task.js";
 import { createListBoardTool } from "./list-board.js";
 import { createListCommentsTool } from "./list-comments.js";
@@ -29,6 +32,10 @@ export const toolFactories = [
   createListCommentsTool,
   createAddCommentTool,
   createCreateTaskTool,
+  createCreateProjectTool,
+  createListStorageTool,
+  createListProjectNotesTool,
+  createUpdateProjectNoteTool,
   createMoveTaskTool,
   createArchiveTaskTool,
 ] as const;
