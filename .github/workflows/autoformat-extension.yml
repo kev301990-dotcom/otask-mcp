@@ -1,0 +1,26 @@
+name: Autoformat extension
+on:
+  push:
+    branches: [feature/otask-projects-20261030]
+permissions:
+  contents: write
+jobs:
+  format:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/otask-projects-20261030
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx biome check --write packages/core/src/services/api.ts packages/core/src/services/client.ts packages/core/src/tools/create-project.ts packages/core/src/tools/list-storage.ts packages/core/src/tools/project-notes.ts packages/core/src/tools/registry.ts tests/extended-api.test.ts tests/tools-write.test.ts
+      - name: Commit formatting changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/core/src/services/api.ts packages/core/src/services/client.ts packages/core/src/tools/create-project.ts packages/core/src/tools/list-storage.ts packages/core/src/tools/project-notes.ts packages/core/src/tools/registry.ts tests/extended-api.test.ts tests/tools-write.test.ts
+          if ! git diff --cached --quiet; then
+            git commit -m "style: format O!task extension with Biome"
+            git push
+          fi
